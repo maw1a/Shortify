@@ -1,7 +1,8 @@
 require('dotenv').config();
 
 mongoose = require('mongoose');
-mongoose.connect(process.env.DATABASE, {
+const DATABASE = 'mongodb://admin:Hd086XYSRidaoVz9@cluster0-shard-00-00.fuhpj.gcp.mongodb.net:27017,cluster0-shard-00-01.fuhpj.gcp.mongodb.net:27017,cluster0-shard-00-02.fuhpj.gcp.mongodb.net:27017/urldb?ssl=true&replicaSet=atlas-p0z6yr-shard-0&authSource=admin&retryWrites=true&w=majority'
+mongoose.connect(DATABASE, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -18,7 +19,6 @@ require('./models/Url');
 
 const express = require('express');
 const fs = require('fs');
-const { stringify } = require('querystring');
 
 const app = express();
 app.use(express.json());
@@ -89,6 +89,6 @@ app.post('/analytics', async (req, res) => {
   })
 })
 
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log('Listening on port 8000');
 })
