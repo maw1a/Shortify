@@ -52,8 +52,8 @@ app.post('/', async (req, res) => {
   instance.id = id;
   await instance.save()
   res.send({
-    message: `shortify.tech/${id} was created`,
-    url: `shortify.tech/${id}`,
+    message: `${id} was created`,
+    url: `${id}`,
   });
 })
 
