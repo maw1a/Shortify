@@ -24,6 +24,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/favicon.ico', express.static('./favicon.ico'));
+
 const Url = mongoose.model('Url');
 
 app.get('/', (req, res) => {
@@ -41,28 +43,32 @@ app.get('/', (req, res) => {
   });
 })
 
-app.post('/', async (req, res) => {
-  const url = req.body.url;
-  const instance = new Url({
-    url: url,
-    visitors: 0
-  });
-  short = JSON.stringify(instance._id)
-  const id = short.slice(short.length-7, short.length-1)
-  instance.id = id;
-  await instance.save()
-  res.send({
-    message: `${id} was created`,
-    url: `${id}`,
-  });
-})
-
 app.get('/:route', async (req, res) => {
   const route = req.params.route;
-  const instance = await Url.findOne({id: route});
-  instance.visitors = instance.visitors + 1;
-  await instance.save();
-  res.redirect(`//${instance.url}`)
+  if(route) {
+    const instance = await Url.findOne({id: route});
+    if(instance) {
+      instance.visitors = instance.visitors + 1;
+      await instance.save();
+      res.redirect(`//${instance.url}`)
+    } else {
+      res.send("404")
+    }
+  } else {
+    const url = req.body.url;
+    const instance = new Url({
+      url: url,
+      visitors: 0
+    });
+    short = JSON.stringify(instance._id)
+    const id = short.slice(short.length-7, short.length-1)
+    instance.id = id;
+    await instance.save()
+    res.send({
+      message: `${id} was created`,
+      url: `${id}`,
+    });
+  }
 })
 
 app.get('/analytics/:route', async (req, res) => {
