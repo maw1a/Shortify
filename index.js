@@ -43,31 +43,31 @@ app.get('/', (req, res) => {
   });
 })
 
+app.post('/', async (req, res) => {
+  const url = req.body.url;
+  const instance = new Url({
+    url: url,
+    visitors: 0
+  });
+  short = JSON.stringify(instance._id)
+  const id = short.slice(short.length-7, short.length-1)
+  instance.id = id;
+  await instance.save()
+  res.send({
+    message: `${id} was created`,
+    url: `${id}`,
+  });
+})
+
 app.get('/:route', async (req, res) => {
   const route = req.params.route;
-  if(route) {
-    const instance = await Url.findOne({id: route});
-    if(instance) {
-      instance.visitors = instance.visitors + 1;
-      await instance.save();
-      res.redirect(`//${instance.url}`)
-    } else {
-      res.send("404")
-    }
+  const instance = await Url.findOne({id: route});
+  if(instance) {
+    instance.visitors = instance.visitors + 1;
+    await instance.save();
+    res.redirect(`//${instance.url}`)
   } else {
-    const url = req.body.url;
-    const instance = new Url({
-      url: url,
-      visitors: 0
-    });
-    short = JSON.stringify(instance._id)
-    const id = short.slice(short.length-7, short.length-1)
-    instance.id = id;
-    await instance.save()
-    res.send({
-      message: `${id} was created`,
-      url: `${id}`,
-    });
+    res.send("404")
   }
 })
 
