@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Shortify</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap');
+      *{
+        font-family: 'Kumbh Sans', sans-serif;
+      }
+      .heading-center {
+        font-weight: 500;
+        text-align: center;
+        margin-top: 30vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="heading-center">Shortify</h1>
+      <div class="form-group row mt-3">
+        <input id="url" class="form-control col-10 ml-auto">
+        <button class="btn btn-primary col-1 ml-2 mr-auto">Shorten</button>
+      </div>
+      <div class="form-group row mt-3">
+        <span class="ml-auto mt-2">Shortify URL</span>
+        <input id="short" disabled class="form-control col-10 ml-3 mr-auto">
+      </div>
+      <div class="form-group row mt-3">
+        <span class="ml-auto mt-2">Analytics URL</span>
+        <input id="analytics" disabled class="form-control col-10 ml-2 mr-auto">
+      </div>
+    </div>
+    <script>
+      $(document).ready(function() {
+        $('button').click(function() {
+          const url = $('#url').val();
+          $.ajax({url: '/', data: { url }, type: 'POST', success: function(res) {
+            $('#short').val(res.url);
+            $('#analytics').val(res.url.split('/')[0]+'/analytics/'+res.url.split('/')[1])
+          }})
+        })
+      })
+    </script>
+  </body>
+</html>
