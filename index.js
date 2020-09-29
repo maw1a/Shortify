@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 mongoose = require('mongoose');
-const DATABASE = 'mongodb://admin:Hd086XYSRidaoVz9@cluster0-shard-00-00.fuhpj.gcp.mongodb.net:27017,cluster0-shard-00-01.fuhpj.gcp.mongodb.net:27017,cluster0-shard-00-02.fuhpj.gcp.mongodb.net:27017/urldb?ssl=true&replicaSet=atlas-p0z6yr-shard-0&authSource=admin&retryWrites=true&w=majority'
+const DATABASE = 'mongodb://<username>:<password>@your-mongodb-url'
 mongoose.connect(DATABASE, {
   useNewUrlParser: true,
   useUnifiedTopology: true
