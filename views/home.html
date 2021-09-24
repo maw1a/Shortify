@@ -53,8 +53,8 @@
         $('#shorten').click(function() {
           const url = $('#url').val();
           $.ajax({url: '/', data: { url }, type: 'POST', success: function(res) {
-            $('#short').val(window.location.hostname+'/'+res.url);
-            $('#analytics').val(window.location.hostname+'/analytics/'+res.url)
+            $('#short').val(window.location.host+'/'+res.url);
+            $('#analytics').val(window.location.host+'/analytics/'+res.url)
           }})
         })
       })
