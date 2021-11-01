@@ -1,8 +1,7 @@
 require('dotenv').config();
 
 mongoose = require('mongoose');
-const DATABASE = 'mongodb://<username>:<password>@your-mongodb-url'
-mongoose.connect(DATABASE, {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -65,7 +64,8 @@ app.get('/:route', async (req, res) => {
   if(instance) {
     instance.visitors = instance.visitors + 1;
     await instance.save();
-    res.redirect(`//${instance.url}`)
+
+    res.redirect(instance.url);
   } else {
     res.send("404")
   }
